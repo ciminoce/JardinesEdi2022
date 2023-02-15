@@ -21,9 +21,11 @@ namespace JardinesEdti2022.Web
 
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/bootstrap.bundle.js"));
+                      "~/Scripts/bootstrap.bundle.js",
+                      "~/Scripts/toastr.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                "~/Content/toastr.css",
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
         }

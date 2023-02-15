@@ -7,30 +7,47 @@
     <h2>Lista de Países</h2>
 
     <p>
-        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Nuevo", "Create", null, new { @class = "btn btn-primary" })
 
     </p>
 
 </div>
-<table class="table table-bordered table-hover">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.NombrePais)
-        </th>
-        <th></th>
-    </tr>
+@*@if (TempData["msg"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Éxito!</strong> @TempData["msg"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.NombrePais)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PaisId }, new {@class="btn btn-warning"}) 
-            @Html.ActionLink("Details", "Details", new { id=item.PaisId }, new { @class = "btn btn-info" }) 
-            @Html.ActionLink("Delete", "Delete", new { id=item.PaisId }, new { @class = "btn btn-danger" })
-        </td>
-    </tr>
 }
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> @TempData["error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}*@
 
-</table>
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombrePais)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombrePais)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PaisId }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Details", "Details", new { id = item.PaisId }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.PaisId }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+
+    </table>

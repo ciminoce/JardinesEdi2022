@@ -18,6 +18,7 @@ namespace JardinesEdti2022.Web.Mappings
         private void LoadPaisesMapping()
         {
             CreateMap<Pais, PaisListVm>();
+            CreateMap<Pais, PaisEditVm>().ReverseMap();
         }
     }
 }
