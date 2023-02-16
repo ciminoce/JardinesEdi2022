@@ -1,0 +1,77 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<JardinesEdti2022.Web.Models.ViewModels.Ciudad.CiudadListVm>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="d-flex justify-content-between mt-3">
+    <h2>Lista de Ciudades</h2>
+
+    <p>
+        @Html.ActionLink("Nuevo", "Create", null, new { @class = "btn btn-primary" })
+    </p>
+
+</div>
+@using (Html.BeginForm("Index","Ciudad",FormMethod.Get))
+{
+<div class="row">
+    <div class="col-auto">
+        <label>Mostrar</label>
+    </div>
+    <div class="col-auto">
+        <select name="PageSize" id="PageSize" class="form-select">
+            <option @if ((int)ViewBag.PageSize == 5) { @Html.Raw("selected") ; }
+                    value="5">
+                5
+            </option>
+            <option @if ((int)ViewBag.PageSize == 10) { @Html.Raw("selected") }
+                    value="10">
+                10
+            </option>
+            <option @if ((int)ViewBag.PageSize == 15) { @Html.Raw("selected") }
+                    value="15">
+                15
+            </option>
+            <option @if ((int)ViewBag.PageSize == 20) { @Html.Raw("selected") } value="20">20</option>
+
+        </select>
+
+    </div> 
+    <div class="col-auto">
+        <input class="btn btn-primary" value="Aplicar" type="submit" />
+    </div>
+</div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().NombreCiudad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Pais)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCiudad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pais)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CiudadId }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.CiudadId }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+Pag.: @(Model.PageCount<Model.PageNumber?0:Model.PageNumber) de @Model.PageCount
+<br />
+Total Items @Model.TotalItemCount
+@Html.PagedListPager(Model, page => @Url.Action("Index", "Ciudad", new { page, pageSize = 10 }))

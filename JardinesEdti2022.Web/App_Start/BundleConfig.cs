@@ -27,7 +27,8 @@ namespace JardinesEdti2022.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/toastr.css",
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+            "~/Content/PagedList.css"));
         }
     }
 }
