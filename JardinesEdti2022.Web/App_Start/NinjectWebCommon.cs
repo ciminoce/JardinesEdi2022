@@ -5,6 +5,7 @@ using JardinesEdi2022.Datos.Facades;
 using JardinesEdi2022.Datos.Repositorios;
 using JardinesEdi2022.Servicios.Facades;
 using JardinesEdi2022.Servicios.Servicios;
+using JardinesEdi2022.Servicios.Servicios.Facades;
 using JardinesEdti2022.Web;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
@@ -70,6 +71,10 @@ namespace JardinesEdti2022.Web
 
             kernel.Bind<ICiudadesRepositorio>().To<CiudadesRepositorio>().InRequestScope();
             kernel.Bind<ICiudadesServicios>().To<CiudadesServicios>().InRequestScope();
+
+            kernel.Bind<ICategoriasRepositorio>().To<CategoriasRepositorio>().InRequestScope();
+            kernel.Bind<ICategoriasServicios>().To<CategoriasServicios>().InRequestScope();
+
 
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
             kernel.Bind<ViveroSqlDbContext>().ToSelf().InSingletonScope();

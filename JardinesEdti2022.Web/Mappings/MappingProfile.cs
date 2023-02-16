@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using AutoMapper;
 using JardinesEdi2022.Entidades.Entidades;
+using JardinesEdti2022.Web.Models.ViewModels.Categoria;
 using JardinesEdti2022.Web.Models.ViewModels.Ciudad;
 using JardinesEdti2022.Web.Models.ViewModels.Pais;
 
@@ -15,6 +16,14 @@ namespace JardinesEdti2022.Web.Mappings
         {
             LoadPaisesMapping();
             LoadCiudadesMapping();
+            LoadCategoriasMapping();
+        }
+
+        private void LoadCategoriasMapping()
+        {
+            CreateMap<Categoria, CategoriaListVm>();
+            CreateMap<Categoria, CategoriaEditVm>().ReverseMap();
+
         }
 
         private void LoadCiudadesMapping()

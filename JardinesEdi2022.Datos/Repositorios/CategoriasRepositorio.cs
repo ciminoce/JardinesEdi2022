@@ -68,6 +68,7 @@ namespace JardinesEdi2022.Datos.Repositorios
                     }
 
                     categoriaInDb.NombreCategoria = categoria.NombreCategoria;
+                    categoriaInDb.Descripcion = categoria.Descripcion;
                     _context.Entry(categoriaInDb).State = EntityState.Modified;
 
                 }
