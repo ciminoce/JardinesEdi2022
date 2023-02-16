@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using JardinesEdi2022.Utilidades;
 
 namespace JardinesEdti2022.Web
 {
@@ -17,6 +18,7 @@ namespace JardinesEdti2022.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            HelperUsuario.CreateAdminUser();
         }
     }
 }

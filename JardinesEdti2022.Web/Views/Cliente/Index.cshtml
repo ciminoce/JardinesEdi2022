@@ -1,0 +1,65 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<JardinesEdti2022.Web.Models.ViewModels.Cliente.ClienteListVm>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="d-flex justify-content-between bg-white p-3 mt-1">
+    <h2 class="text-primary">Listado de Clientes</h2>
+
+    <p>
+        @Html.ActionLink("Nuevo", "Create", null, new { @class = "btn btn-primary" })
+    </p>
+
+</div>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Nombres)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Pais)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Ciudad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Email)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pais)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ciudad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ClienteId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ClienteId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ClienteId })
+            </td>
+        </tr>
+    }
+
+</table>
+Pag.: @(Model.PageCount<Model.PageNumber?0:Model.PageNumber) de @Model.PageCount
+<br />
+Total Items @Model.TotalItemCount
+@Html.PagedListPager(Model, page => @Url.Action("Index", "Cliente", new { page, pageSize = 12 }))

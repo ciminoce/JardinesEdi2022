@@ -6,6 +6,7 @@ using AutoMapper;
 using JardinesEdi2022.Entidades.Entidades;
 using JardinesEdti2022.Web.Models.ViewModels.Categoria;
 using JardinesEdti2022.Web.Models.ViewModels.Ciudad;
+using JardinesEdti2022.Web.Models.ViewModels.Cliente;
 using JardinesEdti2022.Web.Models.ViewModels.Pais;
 
 namespace JardinesEdti2022.Web.Mappings
@@ -17,6 +18,15 @@ namespace JardinesEdti2022.Web.Mappings
             LoadPaisesMapping();
             LoadCiudadesMapping();
             LoadCategoriasMapping();
+            LoadClientesMapping();
+        }
+
+        private void LoadClientesMapping()
+        {
+            CreateMap<Cliente, ClienteListVm>()
+                .ForMember(dest => dest.Pais, opt => opt.MapFrom(src => src.Pais.NombrePais))
+                .ForMember(dest => dest.Ciudad, opt => opt.MapFrom(src => src.Ciudad.NombreCiudad));
+            CreateMap<Cliente, ClienteEditVm>().ReverseMap();
         }
 
         private void LoadCategoriasMapping()

@@ -6,10 +6,10 @@
 
 <h2>Agregar Categoría</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -33,7 +33,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10 mt-3">
                 <input type="submit" value="Guardar" class="btn btn-primary" />
-                @Html.ActionLink("Volver", "Index",null, new{@class="btn btn-success"})
+                @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-success" })
             </div>
         </div>
     </div>

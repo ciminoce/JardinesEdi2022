@@ -155,6 +155,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\CiudadController.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaisController.cs" />
     <Compile Include="Global.asax.cs">
@@ -165,6 +166,8 @@
     <Compile Include="Models\ViewModels\Categoria\CategoriaListVm.cs" />
     <Compile Include="Models\ViewModels\Ciudad\CiudadEditVm.cs" />
     <Compile Include="Models\ViewModels\Ciudad\CiudadListVm.cs" />
+    <Compile Include="Models\ViewModels\Cliente\ClienteEditVm.cs" />
+    <Compile Include="Models\ViewModels\Cliente\ClienteListVm.cs" />
     <Compile Include="Models\ViewModels\Pais\PaisEditVm.cs" />
     <Compile Include="Models\ViewModels\Pais\PaisListVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -240,6 +243,8 @@
     <Content Include="Views\Categoria\Create.cshtml" />
     <Content Include="Views\Categoria\Delete.cshtml" />
     <Content Include="Views\Categoria\Edit.cshtml" />
+    <Content Include="Views\Cliente\Index.cshtml" />
+    <Content Include="Views\Cliente\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -283,6 +288,10 @@
     <ProjectReference Include="..\JardinesEdi2022.Servicios\JardinesEdi2022.Servicios.csproj">
       <Project>{48171262-d2ec-414b-bbf5-5c57dcbf084f}</Project>
       <Name>JardinesEdi2022.Servicios</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JardinesEdi2022.Utilidades\JardinesEdi2022.Utilidades.csproj">
+      <Project>{D1F15140-9A0A-46D4-8320-3DEB41DD2319}</Project>
+      <Name>JardinesEdi2022.Utilidades</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
