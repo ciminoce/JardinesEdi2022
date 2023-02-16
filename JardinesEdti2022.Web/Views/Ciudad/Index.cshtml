@@ -74,4 +74,4 @@
 Pag.: @(Model.PageCount<Model.PageNumber?0:Model.PageNumber) de @Model.PageCount
 <br />
 Total Items @Model.TotalItemCount
-@Html.PagedListPager(Model, page => @Url.Action("Index", "Ciudad", new { page, pageSize = 10 }))
+@Html.PagedListPager(Model, page => @Url.Action("Index", "Ciudad", new { page, pageSize = ViewBag.PageSize }))
