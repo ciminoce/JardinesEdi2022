@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
@@ -157,6 +158,170 @@ namespace JardinesEdti2022.Web.Controllers
             {
                 TempData["error"] = e.Message;
                 return RedirectToAction("Index");
+            }
+        }
+
+
+
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var cliente = _clientesServicios.GetEntityPorId(id.Value);
+            if (cliente == null)
+            {
+                return HttpNotFound("Código de Cliente inexistente!!!");
+            }
+
+            var clienteVm = _mapper.Map<ClienteEditVm>(cliente);
+            clienteVm.Paises = _paisesServicios.GetLista().Select(p => new SelectListItem
+            {
+                Value = p.PaisId.ToString(),
+                Text = p.NombrePais
+            }).ToList();
+            clienteVm.Ciudades = _ciudadesServicios.GetLista().Select(c => new SelectListItem
+            {
+                Value = c.CiudadId.ToString(),
+                Text = c.NombreCiudad
+            }).ToList();
+
+            return View(clienteVm);
+
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(ClienteEditVm clienteVm)
+        {
+            if (!ModelState.IsValid)
+            {
+                clienteVm.Paises = _paisesServicios.GetLista().Select(p => new SelectListItem
+                {
+                    Value = p.PaisId.ToString(),
+                    Text = p.NombrePais
+                }).ToList();
+                clienteVm.Ciudades = _ciudadesServicios.GetLista().Select(c => new SelectListItem
+                {
+                    Value = c.CiudadId.ToString(),
+                    Text = c.NombreCiudad
+                }).ToList();
+                return View(clienteVm);
+            }
+
+            var cliente = _mapper.Map<Cliente>(clienteVm);
+            try
+            {
+                _clientesServicios.Guardar(cliente);
+                if (_usuariosServicios.GetUsuarioByEmail(cliente.Email) == null)
+                {
+
+                    //string clave = HelperUsuario.GenerarClave();
+                    string clave = cliente.Email;
+                    var usuario = new Usuario()
+                    {
+                        Correo = cliente.Email,
+                        Nombre = cliente.Nombres,
+                        Apellido = cliente.Apellido,
+                        Activo = true,
+                        Rol = WC.CustomerRole,
+                        Reestablecer = true,
+                        Clave = clave
+                    };
+                    string asunto = "Creación de Cuenta";
+                    string mensaje = $"<h3>Su cuenta se ha creado satisfactoriamente.<h3><br/><p>Su contraseña es {clave}</p>";
+                    bool respuesta = HelperUsuario.EnviarCorreo(usuario.Correo, asunto, mensaje);
+
+                    if (respuesta)
+                    {
+                        try
+                        {
+                            usuario.Clave = HelperUsuario.ConvertirSha256(clave);
+                            _usuariosServicios.Guardar(usuario);
+                            TempData["msg"] = "Cliente registrado satisfactoriamente";
+                            return RedirectToAction("Index");
+                        }
+                        catch (Exception e)
+                        {
+                            ModelState.AddModelError(string.Empty, e.Message);
+                            return View(clienteVm);
+                        }
+
+                    }
+                    else
+                    {
+                        //Hacemos esto si el correo es ficticio
+                        usuario.Clave = usuario.Correo;
+                        usuario.Reestablecer = true;
+
+                        _usuariosServicios.Guardar(usuario);
+                        TempData["msg"] = "Cliente registrado satisfactoriamente";
+                        return RedirectToAction("Index");
+
+
+                        //ModelState.AddModelError(string.Empty, "No se pudo enviar el correo!!!");
+                        //return View(clienteVm);
+                    }
+
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Mail existente!!!");
+                    return View(clienteVm);
+                }
+
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var cliente = _clientesServicios.GetEntityPorId(id.Value);
+            if (cliente == null)
+            {
+                return HttpNotFound("Código de Cliente inexistente!!!");
+            }
+
+            var clienteVm = _mapper.Map<ClienteDeleteVm>(cliente);
+            return View(clienteVm);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirm(int id)
+        {
+            try
+            {
+                var cliente = _clientesServicios.GetEntityPorId(id);
+                _clientesServicios.Borrar(id);
+                var usuario = _usuariosServicios.GetUsuarioByEmail(cliente.Email);
+                if (usuario != null)
+                {
+                    usuario.Activo = false;
+                    _usuariosServicios.Guardar(usuario);
+                }
+
+                TempData["msg"] = "Cliente borrado satisfactoriamente";
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction("Index");
+
             }
         }
 

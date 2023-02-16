@@ -27,6 +27,11 @@ namespace JardinesEdti2022.Web.Mappings
                 .ForMember(dest => dest.Pais, opt => opt.MapFrom(src => src.Pais.NombrePais))
                 .ForMember(dest => dest.Ciudad, opt => opt.MapFrom(src => src.Ciudad.NombreCiudad));
             CreateMap<Cliente, ClienteEditVm>().ReverseMap();
+            CreateMap<Cliente, ClienteDeleteVm>()
+                .ForMember(dest => dest.Pais, opt => opt.MapFrom(src => src.Pais.NombrePais))
+                .ForMember(dest => dest.Ciudad, opt => opt.MapFrom(src => src.Ciudad.NombreCiudad));
+
+
         }
 
         private void LoadCategoriasMapping()
