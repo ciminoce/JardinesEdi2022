@@ -258,5 +258,156 @@ namespace JardinesEdti2022.Web.Controllers
 
 
         }
+
+        public ActionResult EditCity(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var ciudad = _ciudadesServicios.GetEntityPorId(id.Value);
+            if (ciudad == null)
+            {
+                return HttpNotFound("Código de ciudad erróneo!!!");
+            }
+
+            var ciudadVm = _mapper.Map<CiudadEditVm>(ciudad);
+            var listaPaises = _paisesServicios.GetLista();
+
+            var paisesDropDown = listaPaises.Select(p => new SelectListItem()
+            {
+                Text = p.NombrePais,
+                Value = p.PaisId.ToString()
+            }).ToList();
+            ciudadVm.Paises = paisesDropDown;
+            return View(ciudadVm);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCity(CiudadEditVm ciudadVm)
+        {
+            if (!ModelState.IsValid)
+            {
+                var listaPaises = _paisesServicios.GetLista();
+
+                var paisesDropDown = listaPaises.Select(p => new SelectListItem()
+                {
+                    Text = p.NombrePais,
+                    Value = p.PaisId.ToString()
+                }).ToList();
+                ciudadVm.Paises = paisesDropDown;
+
+                return View(ciudadVm);
+            }
+
+            var ciudad = _mapper.Map<Ciudad>(ciudadVm);
+            try
+            {
+                if (_ciudadesServicios.Existe(ciudad))
+                {
+                    ModelState.AddModelError(string.Empty, "Ciudad existente!!!");
+                    var listaPaises = _paisesServicios.GetLista();
+
+                    var paisesDropDown = listaPaises.Select(p => new SelectListItem()
+                    {
+                        Text = p.NombrePais,
+                        Value = p.PaisId.ToString()
+                    }).ToList();
+                    ciudadVm.Paises = paisesDropDown;
+
+                    return View(ciudadVm);
+                }
+                _ciudadesServicios.Guardar(ciudad);
+                return RedirectToAction($"Details/{ciudadVm.PaisId}");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(string.Empty, "Ciudad existente!!!");
+                var listaPaises = _paisesServicios.GetLista();
+
+                var paisesDropDown = listaPaises.Select(p => new SelectListItem()
+                {
+                    Text = p.NombrePais,
+                    Value = p.PaisId.ToString()
+                }).ToList();
+                ciudadVm.Paises = paisesDropDown;
+
+                return View(ciudadVm);
+            }
+
+        }
+
+        public ActionResult DeleteCity(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var ciudad = _ciudadesServicios.GetEntityPorId(id.Value);
+            if (ciudad == null)
+            {
+                return HttpNotFound("Código de ciudad erróneo!!!");
+            }
+
+            var ciudadVm = _mapper.Map<CiudadEditVm>(ciudad);
+            var listaPaises = _paisesServicios.GetLista();
+
+            var paisesDropDown = listaPaises.Select(p => new SelectListItem()
+            {
+                Text = p.NombrePais,
+                Value = p.PaisId.ToString()
+            }).ToList();
+            ciudadVm.Paises = paisesDropDown;
+
+
+            return View(ciudadVm);
+
+        }
+
+        [HttpPost, ActionName("DeleteCity")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteCityConfirm(int id)
+        {
+            var ciudad = _ciudadesServicios.GetEntityPorId(id);
+            var ciudadVm = _mapper.Map<CiudadEditVm>(ciudad);
+            try
+            {
+                if (_ciudadesServicios.EstaRelacionado(ciudad))
+                {
+                    ModelState.AddModelError(string.Empty, "Ciudad con registros relacionados... Baja denegada");
+                    var listaPaises = _paisesServicios.GetLista();
+
+                    var paisesDropDown = listaPaises.Select(p => new SelectListItem()
+                    {
+                        Text = p.NombrePais,
+                        Value = p.PaisId.ToString()
+                    }).ToList();
+                    ciudadVm.Paises = paisesDropDown;
+
+                    return View(ciudadVm);
+                }
+                _ciudadesServicios.Borrar(id);
+                
+                return RedirectToAction($"Details/{ciudad.PaisId}");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(string.Empty, "Error al intentar dar de baja una ciudad");
+                var listaPaises = _paisesServicios.GetLista();
+
+                var paisesDropDown = listaPaises.Select(p => new SelectListItem()
+                {
+                    Text = p.NombrePais,
+                    Value = p.PaisId.ToString()
+                }).ToList();
+                ciudadVm.Paises = paisesDropDown;
+
+                return View(ciudadVm);
+            }
+        }
     }
 }

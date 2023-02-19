@@ -55,8 +55,8 @@
                     @Html.DisplayFor(modelItem => item.NombreCiudad)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.CiudadId }, new { @class = "btn btn-warning" })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.CiudadId }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Editar", "EditCity", new { id = item.CiudadId }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Borrar", "DeleteCity", new { id = item.CiudadId }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }
