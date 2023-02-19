@@ -119,5 +119,18 @@ namespace JardinesEdi2022.Servicios.Servicios
             }
 
         }
+
+        public int GetCantidad(int paisId)
+        {
+            try
+            {
+                return _repositorio.GetCantidad(paisId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
     }
 }

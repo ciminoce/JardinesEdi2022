@@ -9,5 +9,6 @@ namespace JardinesEdi2022.Datos.Facades
         bool EstaRelacionado(Ciudad Ciudad);
         int GetCantidad();
         List<Ciudad> GetLista(int paisId);
+        int GetCantidad(int paisId);
     }
 }

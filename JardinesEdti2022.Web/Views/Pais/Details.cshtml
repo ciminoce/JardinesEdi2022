@@ -1,0 +1,70 @@
+﻿@model JardinesEdti2022.Web.Models.ViewModels.Pais.PaisDetailsVm
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalle de País</h2>
+
+<div class="form-horizontal">
+    <hr />
+    @Html.HiddenFor(model => model.Pais.PaisId)
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Pais.NombrePais, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Pais.NombrePais, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Pais.CantidadCiudades, new { @class = "form-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.Pais.CantidadCiudades, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group mt-3">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("Agregar Ciudad", "AddCity", new{id=Model.Pais.PaisId}, new { @class = "btn btn-primary" })
+
+            @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-success" })
+        </div>
+    </div>
+</div>
+<hr />
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Ciudades.FirstOrDefault().NombreCiudad)
+        </th>
+        <th>Acciones</th>
+    </tr>
+    @if (Model.Ciudades.Any())
+    {
+        foreach (var item in Model.Ciudades)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreCiudad)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CiudadId }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CiudadId }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+
+    }
+    else
+    {
+        <td colspan="2" style="text-align: center">No se hay agregado ciudades todavía</td>
+    }
+
+</table>

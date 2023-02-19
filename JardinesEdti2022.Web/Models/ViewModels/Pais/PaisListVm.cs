@@ -13,5 +13,7 @@ namespace JardinesEdti2022.Web.Models.ViewModels.Pais
         [Display(Name = "País")]
         public string NombrePais { get; set; }
 
+        [Display(Name = "Cant. Ciudades")]
+        public int CantidadCiudades { get; set; }
     }
 }

@@ -156,5 +156,16 @@ namespace JardinesEdi2022.Datos.Repositorios
             }
         }
 
+        public int GetCantidad(int paisId)
+        {
+            try
+            {
+                return _context.Ciudades.Count(c=>c.PaisId==paisId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

@@ -33,6 +33,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.NombrePais)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantidadCiudades)
+            </th>
+
             <th></th>
         </tr>
 
@@ -42,6 +46,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.NombrePais)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CantidadCiudades)
+                </td>
+
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.PaisId }, new { @class = "btn btn-warning" })
                     @Html.ActionLink("Details", "Details", new { id = item.PaisId }, new { @class = "btn btn-info" })

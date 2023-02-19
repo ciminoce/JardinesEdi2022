@@ -166,9 +166,11 @@
     <Compile Include="Models\ViewModels\Categoria\CategoriaListVm.cs" />
     <Compile Include="Models\ViewModels\Ciudad\CiudadEditVm.cs" />
     <Compile Include="Models\ViewModels\Ciudad\CiudadListVm.cs" />
+    <Compile Include="Models\ViewModels\Ciudad\CiudadPaisDetailsVm.cs" />
     <Compile Include="Models\ViewModels\Cliente\ClienteDeleteVm.cs" />
     <Compile Include="Models\ViewModels\Cliente\ClienteEditVm.cs" />
     <Compile Include="Models\ViewModels\Cliente\ClienteListVm.cs" />
+    <Compile Include="Models\ViewModels\Pais\PaisDetailsVm.cs" />
     <Compile Include="Models\ViewModels\Pais\PaisEditVm.cs" />
     <Compile Include="Models\ViewModels\Pais\PaisListVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -248,6 +250,8 @@
     <Content Include="Views\Cliente\Create.cshtml" />
     <Content Include="Views\Cliente\Edit.cshtml" />
     <Content Include="Views\Cliente\Delete.cshtml" />
+    <Content Include="Views\Pais\Details.cshtml" />
+    <Content Include="Views\Pais\AddCity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

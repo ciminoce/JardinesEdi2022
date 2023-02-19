@@ -46,6 +46,7 @@ namespace JardinesEdti2022.Web.Mappings
             CreateMap<Ciudad, CiudadListVm>()
                 .ForMember(dest => dest.Pais, opt => opt.MapFrom(src => src.Pais.NombrePais));
             CreateMap<Ciudad, CiudadEditVm>().ReverseMap();
+            CreateMap<Ciudad, CiudadPaisDetailsVm>();
         }
 
         private void LoadPaisesMapping()
