@@ -9,6 +9,7 @@ using JardinesEdi2022.Entidades.Entidades;
 using JardinesEdi2022.Servicios.Facades;
 using JardinesEdti2022.Web.Models.ViewModels.Ciudad;
 using JardinesEdti2022.Web.Models.ViewModels.Pais;
+using PagedList;
 
 namespace JardinesEdti2022.Web.Controllers
 {
@@ -159,8 +160,10 @@ namespace JardinesEdti2022.Web.Controllers
             }
         }
 
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? page)
         {
+            var pageSize = 7;
+            page = (page ?? 1);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -175,7 +178,7 @@ namespace JardinesEdti2022.Web.Controllers
             var paisVm = new PaisDetailsVm()
             {
                 Pais = _mapper.Map<PaisListVm>(pais),
-                Ciudades = _mapper.Map<List<CiudadPaisDetailsVm>>(_ciudadesServicios.GetLista(pais.PaisId))
+                Ciudades = _mapper.Map<List<CiudadPaisDetailsVm>>(_ciudadesServicios.GetLista(pais.PaisId)).ToPagedList(page.Value,pageSize)
             };
             paisVm.Pais.CantidadCiudades = _ciudadesServicios.GetCantidad(pais.PaisId);
             return View(paisVm);

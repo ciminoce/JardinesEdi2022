@@ -48,6 +48,10 @@ namespace JardinesEdti2022.Web.Models.ViewModels.Cliente
         [Required(ErrorMessage = "El Mail es requerido")]
         [MaxLength(200, ErrorMessage = "El campo no puede contener más de 200 caracteres")]
         public string Email { get; set; }
+        public string Clave { get; set; }
+        public string ConfirmarClave { get; set; }
+
+
         public List<SelectListItem> Ciudades { get; set; }
         public List<SelectListItem> Paises { get; set; }
 
