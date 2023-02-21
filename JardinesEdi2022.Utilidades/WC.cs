@@ -10,5 +10,7 @@ namespace JardinesEdi2022.Utilidades
     {
         public const string AdminRole = "Admin";
         public const string CustomerRole = "Customer";
+        public const string ProductImageFolder = "~/Content/Imagenes/Productos/";
+        public const string SinImagenDisponible = "SinImagenDisponible.jpg";
     }
 }

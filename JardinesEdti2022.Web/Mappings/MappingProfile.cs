@@ -27,6 +27,7 @@ namespace JardinesEdti2022.Web.Mappings
         {
             CreateMap<Producto, ProductoListVm>()
                 .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => src.Categoria.NombreCategoria));
+            CreateMap<Producto, ProductoEditVm>().ReverseMap();
         }
 
         private void LoadClientesMapping()

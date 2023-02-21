@@ -87,6 +87,10 @@ namespace JardinesEdti2022.Web
             kernel.Bind<IProveedoresRepositorio>().To<ProveedoresRepositorio>().InRequestScope();
             kernel.Bind<IProveedoresServicios>().To<ProveedoresServicios>().InRequestScope();
 
+            //kernel.Bind<IOrdenesRepositorio>().To<OrdenesRepositorio>().InRequestScope();
+            //kernel.Bind<IOrdenesServicios>().To<OrdenesServicios>().InRequestScope();
+
+
 
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
             kernel.Bind<ViveroSqlDbContext>().ToSelf().InSingletonScope();

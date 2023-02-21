@@ -70,7 +70,15 @@ namespace JardinesEdi2022.Servicios.Servicios
 
         public bool EstaRelacionado(Producto producto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _repositorio.EstaRelacionado(producto);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
         }
 
         public int GetCantidad()
