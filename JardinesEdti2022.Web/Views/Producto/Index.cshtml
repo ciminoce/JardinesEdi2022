@@ -1,0 +1,101 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<JardinesEdti2022.Web.Models.ViewModels.Producto.ProductoListVm>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="d-flex justify-content-between mt-3">
+    <h2>Listado de Productos</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+    </p>
+
+</div>
+@using (Html.BeginForm("Index", "Producto", FormMethod.Get))
+{
+    <div class="row mb-3">
+        <div class="col-auto">
+            <label>Categorías:</label>
+        </div>
+        <div class="col-auto">
+            <select name="categoriaId">
+                <option selected="selected" value="0" class="form-select">Todos</option>
+                @foreach (var item in (List<SelectListItem>)ViewBag.Categorias)
+                {
+                    if ((int)ViewBag.categoriaId ==Convert.ToInt32(item.Value))
+                    {
+                        <option value="@item.Value" selected="selected">@item.Text</option>
+
+                    }
+                    else
+                    {
+                        <option value="@item.Value">@item.Text</option>
+
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-auto">
+            <input type="submit" value="Filtrar" class="btn btn-secondary" />
+        </div>
+    </div>
+
+}
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().NombreProducto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Categoria)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().PrecioUnitario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().UnidadesEnStock)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Suspendido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Imagen)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoria)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioUnitario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnidadesEnStock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Suspendido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Imagen)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ProductoId }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProductoId }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+Pag.: @(Model.PageCount<Model.PageNumber?0:Model.PageNumber) de @Model.PageCount
+<br />
+Total Items @Model.TotalItemCount
+@Html.PagedListPager(Model, page => @Url.Action("Index", "Producto", new { page, pageSize = 10, ViewBag.categoriaId }))

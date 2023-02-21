@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using AutoMapper;
 using JardinesEdi2022.Servicios.Facades;
 using JardinesEdi2022.Utilidades;
@@ -56,6 +57,16 @@ namespace JardinesEdti2022.Web.Controllers
 
             }
 
+            if (usuario.Reestablecer)
+            {
+                TempData["usuarioId"] = usuario.UsuarioId;
+                return RedirectToAction("ResetPassword");
+            }
+
+            TempData["usuarioId"] = null;
+            Session["usuario"] = usuario;
+            FormsAuthentication.SetAuthCookie(usuario.Correo, false);
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -79,6 +90,36 @@ namespace JardinesEdti2022.Web.Controllers
         public ActionResult PasswordRecovery()
         {
             return View();
+        }
+
+        public ActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(string usuarioId, string clave, string nuevaClave, string confirmarClave)
+        {
+            var usuario = _usuariosServicios.GetUsuarioById(Convert.ToInt32(usuarioId));
+            string claveConvertida = HelperUsuario.ConvertirSha256(clave);
+            if (usuario.Clave!=claveConvertida)
+            {
+                ViewBag.Error = "Clave actual errónea!!!";
+                TempData["usuarioId"] = usuario.UsuarioId;
+                return View();
+            }else if (nuevaClave!=confirmarClave)
+            {
+                ViewBag.Error = "La nueva clave y su confirmación no coinciden!!";
+                TempData["usurioId"] = usuario.UsuarioId;
+                TempData["clave"] = clave;
+                return View();
+            }
+
+            string nuevaClaveConvertida = HelperUsuario.ConvertirSha256(nuevaClave);
+            usuario.Reestablecer = false;
+            usuario.Clave = nuevaClaveConvertida;
+            _usuariosServicios.Guardar(usuario);
+            return RedirectToAction("Login");
         }
     }
 }

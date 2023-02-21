@@ -8,6 +8,7 @@ using JardinesEdti2022.Web.Models.ViewModels.Categoria;
 using JardinesEdti2022.Web.Models.ViewModels.Ciudad;
 using JardinesEdti2022.Web.Models.ViewModels.Cliente;
 using JardinesEdti2022.Web.Models.ViewModels.Pais;
+using JardinesEdti2022.Web.Models.ViewModels.Producto;
 
 namespace JardinesEdti2022.Web.Mappings
 {
@@ -19,6 +20,13 @@ namespace JardinesEdti2022.Web.Mappings
             LoadCiudadesMapping();
             LoadCategoriasMapping();
             LoadClientesMapping();
+            LoadProductoMapping();
+        }
+
+        private void LoadProductoMapping()
+        {
+            CreateMap<Producto, ProductoListVm>()
+                .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => src.Categoria.NombreCategoria));
         }
 
         private void LoadClientesMapping()

@@ -159,6 +159,7 @@
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaisController.cs" />
+    <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -174,6 +175,7 @@
     <Compile Include="Models\ViewModels\Pais\PaisDetailsVm.cs" />
     <Compile Include="Models\ViewModels\Pais\PaisEditVm.cs" />
     <Compile Include="Models\ViewModels\Pais\PaisListVm.cs" />
+    <Compile Include="Models\ViewModels\Producto\ProductoListVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +261,8 @@
     <Content Include="Views\Acceso\Login.cshtml" />
     <Content Include="Views\Acceso\Register.cshtml" />
     <Content Include="Views\Acceso\PasswordRecovery.cshtml" />
+    <Content Include="Views\Acceso\ResetPassword.cshtml" />
+    <Content Include="Views\Producto\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
