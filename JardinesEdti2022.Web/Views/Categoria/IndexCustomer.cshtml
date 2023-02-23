@@ -1,0 +1,38 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<JardinesEdti2022.Web.Models.ViewModels.Categoria.CategoriaListVm>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="d-flex justify-content-between mt-3">
+    <h2>Listado de Categorías</h2>
+
+
+</div>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().NombreCategoria)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Descripcion)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCategoria)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+        </tr>
+    }
+
+</table>
+Pag.: @(Model.PageCount<Model.PageNumber?0:Model.PageNumber) de @Model.PageCount
+<br />
+Total Items @Model.TotalItemCount
+@Html.PagedListPager(Model, page => @Url.Action("IndexCustomer", "Categoria", new { page, pageSize = 10 }))

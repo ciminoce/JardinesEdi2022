@@ -12,6 +12,7 @@ using PagedList;
 
 namespace JardinesEdti2022.Web.Controllers
 {
+    [Authorize]
     public class CategoriaController : Controller
     {
         // GET: Categoria
@@ -23,8 +24,17 @@ namespace JardinesEdti2022.Web.Controllers
             _categoriasServicios = categoriasServicios;
             _mapper = AutoMapperConfig.Mapper;
         }
-
         public ActionResult Index(int? pageSize, int? page)
+        {
+            var listaCategoriaVm = _mapper.Map<List<CategoriaListVm>>(_categoriasServicios.GetLista());
+            listaCategoriaVm = listaCategoriaVm.OrderBy(c => c.NombreCategoria).ToList();
+            page = (page ?? 1);
+            pageSize = (pageSize ?? 10);
+            return View(listaCategoriaVm.ToPagedList(page.Value, pageSize.Value));
+        }
+
+        [AllowAnonymous]
+        public ActionResult IndexCustomer(int? pageSize, int? page)
         {
             var listaCategoriaVm = _mapper.Map<List<CategoriaListVm>>(_categoriasServicios.GetLista());
             listaCategoriaVm = listaCategoriaVm.OrderBy(c => c.NombreCategoria).ToList();

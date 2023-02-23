@@ -14,6 +14,7 @@ using PagedList;
 
 namespace JardinesEdti2022.Web.Controllers
 {
+    [Authorize]
     public class ProductoController : Controller
     {
         // GET: Producto
@@ -55,6 +56,33 @@ namespace JardinesEdti2022.Web.Controllers
             ViewBag.categoriaId = categoriaId;
             return View(listaProductosVm.ToPagedList(page.Value,pageSize));
         }
+        [AllowAnonymous]
+        public ActionResult IndexCustomer(int? page, int categoriaId = 0)
+        {
+            page = (page ?? 1);
+            var pageSize = 10;
+            List<ProductoListVm> listaProductosVm;
+            if (categoriaId == 0)
+            {
+                listaProductosVm = _mapper.Map<List<ProductoListVm>>(_productosServicios.GetLista());
+
+            }
+            else
+            {
+                listaProductosVm = _mapper.Map<List<ProductoListVm>>(_productosServicios.GetLista(categoriaId));
+
+            }
+            var listaCategorias = _categoriasServicios.GetLista();
+            var categoriasDropDown = listaCategorias.Select(c => new SelectListItem()
+            {
+                Text = c.NombreCategoria,
+                Value = c.CategoriaId.ToString()
+            }).ToList();
+            ViewBag.Categorias = categoriasDropDown;
+            ViewBag.categoriaId = categoriaId;
+            return View(listaProductosVm.ToPagedList(page.Value, pageSize));
+        }
+
 
         public ActionResult Create()
         {

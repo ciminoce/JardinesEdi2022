@@ -7,6 +7,7 @@ using JardinesEdi2022.Servicios.Facades;
 
 namespace JardinesEdti2022.Web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly  ICategoriasServicios _categoriasServicios;
