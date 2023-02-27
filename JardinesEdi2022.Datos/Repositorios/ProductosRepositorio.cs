@@ -211,7 +211,7 @@ namespace JardinesEdi2022.Datos.Repositorios
             try
             {
                 var productoInDb = _context.Productos.SingleOrDefault(p => p.ProductoId == productoId);
-                productoInDb.UnidadesEnPedido -= cantidad;
+                productoInDb.UnidadesEnPedido += cantidad;
                 productoInDb.UnidadesEnStock -= cantidad;
                 _context.Entry(productoInDb).State = EntityState.Modified;
             }

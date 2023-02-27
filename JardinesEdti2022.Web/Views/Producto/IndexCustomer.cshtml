@@ -93,8 +93,25 @@
                 }
             </td>
             <td>
-                @Html.ActionLink("Detalles", "Details", new { id = item.ProductoId }, new { @class = "btn btn-info" })
-                @Html.ActionLink("Agregar al Carrito", "AddShoppingCart", new { id = item.ProductoId }, new { @class = "btn btn-danger" })
+                @using (Html.BeginForm("AgregarAlCarrito", "Carrito"))
+                {
+                    <div class="btn-group">
+                        @Html.ActionLink("Detalles", "Details", new { id = item.ProductoId }, new { @class = "btn btn-info" })
+
+                        <div style="float: right">
+                            @Html.Hidden("productoId", item.ProductoId)
+                            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                            @if (item.Suspendido || item.UnidadesEnStock == 0)
+                            {
+                                <input type="submit" class="btn btn-primary" value="Agregar" disabled="disabled" />
+                            }
+                            else
+                            {
+                                <input type="submit" class="btn btn-primary" value="Agregar" />
+                            }
+                        </div>
+                    </div>
+                }
             </td>
         </tr>
     }

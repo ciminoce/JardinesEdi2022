@@ -154,6 +154,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccesoController.cs" />
+    <Compile Include="Controllers\CarritoController.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\CiudadController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
@@ -312,6 +313,7 @@
     <Content Include="webfonts\fa-brands-400.eot" />
     <Content Include="Views\Categoria\IndexCustomer.cshtml" />
     <Content Include="Views\Producto\IndexCustomer.cshtml" />
+    <Content Include="Views\Carrito\MostrarCarrito.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

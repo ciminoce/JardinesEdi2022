@@ -42,7 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Facades\ICarritosServicios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servicios\CarritosServicios.cs" />
     <Compile Include="Servicios\CategoriasServicios.cs" />
     <Compile Include="Servicios\CiudadesServicios.cs" />
     <Compile Include="Servicios\ClientesServicios.cs" />

@@ -26,6 +26,7 @@ namespace JardinesEdi2022.Datos
         public virtual DbSet<Producto> Productos { get; set; }
         public virtual DbSet<Proveedor> Proveedores { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<Carrito> Carritos { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
