@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using AutoMapper;
 using JardinesEdi2022.Entidades.Entidades;
+using JardinesEdti2022.Web.Models.ViewModels.Carrito;
 using JardinesEdti2022.Web.Models.ViewModels.Categoria;
 using JardinesEdti2022.Web.Models.ViewModels.Ciudad;
 using JardinesEdti2022.Web.Models.ViewModels.Cliente;
@@ -21,6 +23,14 @@ namespace JardinesEdti2022.Web.Mappings
             LoadCategoriasMapping();
             LoadClientesMapping();
             LoadProductoMapping();
+            LoadCarritoMapping();
+        }
+
+        private void LoadCarritoMapping()
+        {
+            CreateMap<Carrito, CarritoListVm>().ForMember(dest => dest.Producto,
+                    opt => opt.MapFrom(src => src.Producto.NombreProducto))
+                .ForMember(dest => dest.Precio, opt => opt.MapFrom(src => src.Producto.PrecioUnitario));
         }
 
         private void LoadProductoMapping()

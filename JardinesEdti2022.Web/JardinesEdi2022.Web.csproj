@@ -165,6 +165,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Mappings\MappingProfile.cs" />
+    <Compile Include="Models\ViewModels\Carrito\CarritoListVm.cs" />
     <Compile Include="Models\ViewModels\Categoria\CategoriaEditVm.cs" />
     <Compile Include="Models\ViewModels\Categoria\CategoriaListVm.cs" />
     <Compile Include="Models\ViewModels\Ciudad\CiudadEditVm.cs" />
@@ -314,6 +315,7 @@
     <Content Include="Views\Categoria\IndexCustomer.cshtml" />
     <Content Include="Views\Producto\IndexCustomer.cshtml" />
     <Content Include="Views\Carrito\MostrarCarrito.cshtml" />
+    <Content Include="Views\Producto\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -326,5 +326,24 @@ namespace JardinesEdti2022.Web.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var producto = _productosServicios.GetEntityPorId(id.Value);
+            if (producto == null)
+            {
+                return HttpNotFound("Código de Producto inexistente!!!");
+            }
+
+            var productoVm = _mapper.Map<ProductoListVm>(producto);
+
+            return View(productoVm);
+
+        }
     }
 }

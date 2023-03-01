@@ -121,5 +121,34 @@ namespace JardinesEdi2022.Datos.Repositorios
                 throw e;
             }
         }
+
+        public void AgregarAlCarrito(int clienteId, int productoId, int cantidad)
+        {
+            try
+            {
+                var productoInCarrito =
+                    context.Carritos
+                        .SingleOrDefault(c => c.ClienteId == clienteId && c.ProductoId == productoId);
+                if (productoInCarrito == null)
+                {
+                    Carrito carrito = new Carrito()
+                    {
+                        ProductoId = productoId,
+                        ClienteId = clienteId,
+                        Cantidad = cantidad
+                    };
+                    context.Carritos.Add(carrito);
+                }
+                else
+                {
+                    productoInCarrito.Cantidad += cantidad;
+                    context.Entry(productoInCarrito).State = EntityState.Modified;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

@@ -1,0 +1,52 @@
+﻿@using JardinesEdi2022.Entidades.Entidades
+@using JardinesEdi2022.Utilidades
+@model JardinesEdti2022.Web.Models.ViewModels.Producto.ProductoListVm
+@{
+    ViewBag.Title = "Details";
+}
+
+@using (Html.BeginForm("AgregarAlCarritoMasDeUno","Carrito",FormMethod.Post))
+{
+    @Html.HiddenFor(model=>model.ProductoId)
+    @Html.AntiForgeryToken()
+    <section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            @if (string.IsNullOrEmpty(Model.Imagen))
+            {
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="@Url.Content(WC.ProductImageFolder+WC.SinImagenDisponible)" alt="..." /></div>
+
+            }
+            else
+            {
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="@Url.Content(WC.ProductImageFolder+@Model.Imagen)" alt="..." /></div>
+            }
+            <div class="col-md-6">
+                <div class="small mb-1">Código: @Model.ProductoId</div>
+                <h1 class="display-5 fw-bolder">@Model.NombreProducto</h1>
+                <div class="fs-5 mb-5">
+                    <span class="text-decoration-line-through">$@(Model.PrecioUnitario.ToString("N2") + 4).</span>
+                    <span>$@Model.PrecioUnitario.ToString("N2")</span>
+                </div>
+                <p class="lead"><strong>Stock Actual: </strong>@Model.UnidadesEnStock</p>
+                <p class="lead"><strong>Categoría...: </strong>@Model.Categoria</p>
+
+                <div class="d-flex">
+                    @if ((Usuario)Session["usuario"] != null && ((Usuario)Session["usuario"]).Rol == WC.CustomerRole)
+                    {
+                        <input class="form-control text-center me-3" id="inputQuantity" name="cantidad" type="num" value="1" style="max-width: 3rem" />
+                        <button class="btn btn-outline-light flex-shrink-0" type="submit">
+                            <i class="fa fa-shopping-cart me-1"></i>
+                            Agregar al Carrito
+                        </button>
+
+                    }
+
+                    @Html.ActionLink("Volver", "IndexCustomer", "Producto", null, new { @class = "btn btn-success" })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+}

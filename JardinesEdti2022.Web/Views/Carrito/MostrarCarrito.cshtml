@@ -1,45 +1,73 @@
-﻿@model IEnumerable<JardinesEdi2022.Entidades.Entidades.Carrito>
+﻿@model IEnumerable<JardinesEdti2022.Web.Models.ViewModels.Carrito.CarritoListVm>
 
 @{
     ViewBag.Title = "MostrarCarrito";
 }
+<div class="d-flex justify-content-between mt-3">
+    <h2>Carrito</h2>
+    <a href="@Url.Action("IndexCustomer","Producto")" class="btn btn-info">Seguir Comprando</a>
+</div>
 
-<h2>MostrarCarrito</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<table class="table table-bordered table-hover mt-3">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ClienteId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductoId)
+            @Html.DisplayNameFor(model => model.Producto)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Cantidad)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Precio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+
         <th></th>
     </tr>
+    @if (Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto)
+                </td>
+                <td style="text-align: right">
+                    @Html.DisplayFor(modelItem => item.Cantidad)
+                </td>
+                <td style="text-align: right">
+                    @Html.DisplayFor(modelItem => item.Precio)
+                </td>
+                <td style="text-align: right">
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClienteId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductoId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cantidad)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CarritoId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CarritoId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CarritoId })
-        </td>
-    </tr>
-}
+                <td>
+                    @Html.ActionLink("Borrar", "QuitarDelCarrito", new { productoId = item.ProductoId }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+        <tr>
+            <td><strong>TOTALES:</strong></td>
+            <td style="text-align: right">@Model.Sum(c => c.Cantidad)</td>
+            <td colspan="2" style="text-align: right">@Model.Sum(c => c.Precio * c.Cantidad).ToString("N2")</td>
+            <td></td>
+        </tr>
+
+    }
+    else
+    {
+        <tr>
+            <td colspan="5" style="text-align: center" class="text-danger"><strong>Carrito sin productos</strong></td>
+        </tr>
+    }
 
 </table>
+@if (Model.Any())
+{
+    <div class="form-group">
+        @Html.ActionLink("Finalizar Compra","FinalizarCompra",null,new{@class="btn btn-success"})
+        @Html.ActionLink("Cancelar Compra","CancelarCompra",null,new {@class="btn btn-warning"})
+    </div>
+}

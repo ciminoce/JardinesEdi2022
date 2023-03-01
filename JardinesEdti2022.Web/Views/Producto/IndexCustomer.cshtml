@@ -21,7 +21,7 @@
                 <option selected="selected" value="0" class="form-select">Todos</option>
                 @foreach (var item in (List<SelectListItem>)ViewBag.Categorias)
                 {
-                    if ((int)ViewBag.categoriaId ==Convert.ToInt32(item.Value))
+                    if ((int)ViewBag.categoriaId == Convert.ToInt32(item.Value))
                     {
                         <option value="@item.Value" selected="selected">@item.Text</option>
 
@@ -84,17 +84,19 @@
             <td>
                 @if (!string.IsNullOrEmpty(item.Imagen))
                 {
-                    <img src="@Url.Content(WC.ProductImageFolder+item.Imagen)" width="50px" height="50px"/>
+                    <img src="@Url.Content(WC.ProductImageFolder+item.Imagen)" width="50px" height="50px" />
                 }
                 else
                 {
-                    <img src="@Url.Content(WC.ProductImageFolder+"SinImagenDisponible.jpg")" width="50px" height="50px"/>
+                    <img src="@Url.Content(WC.ProductImageFolder+"SinImagenDisponible.jpg")" width="50px" height="50px" />
 
                 }
             </td>
             <td>
-                @using (Html.BeginForm("AgregarAlCarrito", "Carrito"))
+                @using (Html.BeginForm("AgregarAlCarrito", "Carrito",FormMethod.Post))
                 {
+                    @Html.AntiForgeryToken()
+
                     <div class="btn-group">
                         @Html.ActionLink("Detalles", "Details", new { id = item.ProductoId }, new { @class = "btn btn-info" })
 

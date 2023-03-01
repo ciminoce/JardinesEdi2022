@@ -26,25 +26,25 @@ namespace JardinesEdi2022.Servicios.Servicios
             _unitOfWork = unitOfWork;
         }
 
-        public void AgregarAlCarrito(int clienteId, int productoId)
-        {
-            try
-            {
-                using (var tran = new TransactionScope(TransactionScopeOption.Required))
-                {
-                    _carritosRepisotorio.AgregarAlCarrito(clienteId, productoId);
-                    _unitOfWork.Save();
-                    _productosRepositorio.ActualizarStock(productoId, 1);
-                    _unitOfWork.Save();
-                    tran.Complete();
-                }
+        //public void AgregarAlCarrito(int clienteId, int productoId)
+        //{
+        //    try
+        //    {
+        //        using (var tran = new TransactionScope(TransactionScopeOption.Required))
+        //        {
+        //            _carritosRepisotorio.AgregarAlCarrito(clienteId, productoId);
+        //            _unitOfWork.Save();
+        //            _productosRepositorio.ActualizarStock(productoId, 1);
+        //            _unitOfWork.Save();
+        //            tran.Complete();
+        //        }
 
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+        //}
 
         public int CantidadEnCarrito(int clienteId)
         {
@@ -131,6 +131,35 @@ namespace JardinesEdi2022.Servicios.Servicios
                 throw e;
             }
 
+        }
+
+        public void AgregarAlCarrito(int clienteId, int productoId, int cantidad=1)
+        {
+            try
+            {
+                using (var tran = new TransactionScope(TransactionScopeOption.Required))
+                {
+                    var productoInDb = _productosRepositorio.GetTEntityPorId(productoId);
+                    if (productoInDb.UnidadesEnStock>=cantidad)
+                    {
+                        _carritosRepisotorio.AgregarAlCarrito(clienteId, productoId,cantidad);
+                        _unitOfWork.Save();
+                        _productosRepositorio.ActualizarStock(productoId, cantidad);
+                        _unitOfWork.Save();
+                        tran.Complete();
+                        
+                    }
+                    else
+                    {
+                        throw new Exception("Stock insuficiente... No se pudo agregar al carrito");
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }
