@@ -1,0 +1,124 @@
+﻿@model JardinesEdti2022.Web.Models.ViewModels.Carrito.CarritoFinalizarCompra
+@{
+    ViewBag.Title = "FinalizarCompra";
+}
+
+<h2>Finalizar Compra</h2>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <table class="table table-bordered table-hover mt-3">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ItemsCarrito.FirstOrDefault().Producto)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ItemsCarrito.FirstOrDefault().Cantidad)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ItemsCarrito.FirstOrDefault().Precio)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ItemsCarrito.FirstOrDefault().Total)
+                                </th>
+
+                                <th></th>
+                            </tr>
+                            @if (Model.ItemsCarrito.Any())
+                            {
+                                foreach (var item in Model.ItemsCarrito)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Producto)
+                                        </td>
+                                        <td style="text-align: right">
+                                            @Html.DisplayFor(modelItem => item.Cantidad)
+                                        </td>
+                                        <td style="text-align: right">
+                                            @Html.DisplayFor(modelItem => item.Precio)
+                                        </td>
+                                        <td style="text-align: right">
+                                            @Html.DisplayFor(modelItem => item.Total)
+                                        </td>
+
+                                        <td>
+                                            @Html.ActionLink("Borrar", "QuitarDelCarrito", new { productoId = item.ProductoId }, new { @class = "btn btn-danger" })
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td><strong>TOTALES:</strong></td>
+                                    <td style="text-align: right">@Model.ItemsCarrito.Sum(c => c.Cantidad)</td>
+                                    <td colspan="2" style="text-align: right">@Model.ItemsCarrito.Sum(c => c.Precio * c.Cantidad).ToString("N2")</td>
+                                    <td></td>
+                                </tr>
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" style="text-align: center" class="text-danger"><strong>Carrito sin productos</strong></td>
+                                </tr>
+                            }
+
+                        </table>
+
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="row">
+                            <div class="card">
+                                <div class="card-body bg-light">
+                                    <h5 class="card-title">Detalle Envío</h5>
+                                    <form>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model=>model.PaisEnvioId,new {@class="form-label"})
+                                            @Html.DropDownListFor(model=>model.PaisEnvioId,Model.Paises,"Seleccione País",new {@class="form-select"})
+                                            @Html.ValidationMessageFor(model=>model.PaisEnvioId,null,new {@class="text-danger"})
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model=>model.CiudadEnvioId,new {@class="form-label"})
+                                            @Html.DropDownListFor(model=>model.CiudadEnvioId,Model.Ciudades,"Seleccione Ciudad",new {@class="form-select"})
+                                            @Html.ValidationMessageFor(model=>model.CiudadEnvioId,null,new {@class="text-danger"})
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model=>model.DireccionEnvio,new {@class="form-label"})
+                                            @Html.TextBoxFor(model=>model.DireccionEnvio,new {@class="form-control"})
+                                            @Html.ValidationMessageFor(model=>model.DireccionEnvio,null,new {@class="text-danger"})
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model=>model.CodigoPostalEnvio,new {@class="form-label"})
+                                            @Html.TextBoxFor(model=>model.CodigoPostalEnvio,new {@class="form-control"})
+                                            @Html.ValidationMessageFor(model=>model.CodigoPostalEnvio,null,new {@class="text-danger"})
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model=>model.ContactoEnvio,new {@class="form-label"})
+                                            @Html.TextBoxFor(model=>model.ContactoEnvio,new {@class="form-control"})
+                                            @Html.ValidationMessageFor(model=>model.ContactoEnvio,null,new {@class="text-danger"})
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model=>model.TelefonoEnvio,new {@class="form-label"})
+                                            @Html.TextBoxFor(model=>model.TelefonoEnvio,new {@class="form-control"})
+                                            @Html.ValidationMessageFor(model=>model.TelefonoEnvio,null,new {@class="text-danger"})
+                                        </div>
+                                        <div class="d-grid mt-3">
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="fab fa-paypal"></i> Terminar y Procesar Pago
+                                            </button>
+                                        </div>
+
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

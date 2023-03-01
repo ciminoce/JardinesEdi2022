@@ -13,14 +13,18 @@ namespace JardinesEdti2022.Web.Controllers
     public class CarritoController : Controller
     {
         private readonly ICarritosServicios _carritosServicios;
+        private readonly IPaisesServicios _paisesServicios;
+        private readonly ICiudadesServicios _ciudadesServicios;
         private readonly IMapper _mapper;
 
-        public CarritoController(ICarritosServicios carritosServicios)
+        public CarritoController(ICarritosServicios carritosServicios, IPaisesServicios paisesServicios, ICiudadesServicios ciudadesServicios)
         {
             _carritosServicios = carritosServicios;
+            _paisesServicios = paisesServicios;
+            _ciudadesServicios = ciudadesServicios;
             _mapper = AutoMapperConfig.Mapper;
         }
-        // GET: Carrito
+
         public ActionResult MostrarCarrito()
         {
             var clienteId = ((Usuario) Session["usuario"]).UsuarioId;
@@ -112,6 +116,31 @@ namespace JardinesEdti2022.Web.Controllers
                 return RedirectToAction("MostrarCarrito");
             }
 
+        }
+
+        public ActionResult FinalizarCompra()
+        {
+            var clienteId = ((Usuario)Session["usuario"]).UsuarioId;
+            var listaPaises = _paisesServicios.GetLista();
+            var DropDownPaises = listaPaises.Select(p => new SelectListItem()
+            {
+                Text = p.NombrePais,
+                Value = p.PaisId.ToString()
+            }).ToList();
+            var listaCiudades = _ciudadesServicios.GetLista();
+            var DropDownCiudades = listaCiudades.Select(c => new SelectListItem()
+            {
+                Text = c.NombreCiudad,
+                Value = c.CiudadId.ToString()
+            }).ToList();
+
+            var carritoVm = new CarritoFinalizarCompra()
+            {
+                ItemsCarrito = _mapper.Map<List<CarritoListVm>>(_carritosServicios.GetItemsCarrito(clienteId)),
+                Paises = DropDownPaises,
+                Ciudades = DropDownCiudades
+            };
+            return View(carritoVm);
         }
     }
 }
