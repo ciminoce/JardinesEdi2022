@@ -51,6 +51,7 @@
     <Compile Include="Entidades\Producto.cs" />
     <Compile Include="Entidades\Proveedor.cs" />
     <Compile Include="Entidades\Usuario.cs" />
+    <Compile Include="Enums\EstadoOrden.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

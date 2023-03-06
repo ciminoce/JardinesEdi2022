@@ -10,5 +10,6 @@ namespace JardinesEdi2022.Servicios.Facades
         void Guardar(Orden orden);
         List<Orden> GetLista();
         Orden GetOrdenPorId(int id);
+        List<Orden> GetLista(int clienteId);
     }
 }

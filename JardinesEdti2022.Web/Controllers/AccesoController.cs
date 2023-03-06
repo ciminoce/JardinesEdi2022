@@ -110,7 +110,7 @@ namespace JardinesEdti2022.Web.Controllers
             }else if (nuevaClave!=confirmarClave)
             {
                 ViewBag.Error = "La nueva clave y su confirmación no coinciden!!";
-                TempData["usurioId"] = usuario.UsuarioId;
+                TempData["usuarioId"] = usuario.UsuarioId;
                 TempData["clave"] = clave;
                 return View();
             }
@@ -120,6 +120,14 @@ namespace JardinesEdti2022.Web.Controllers
             usuario.Clave = nuevaClaveConvertida;
             _usuariosServicios.Guardar(usuario);
             return RedirectToAction("Login");
+        }
+
+        public ActionResult CerrarSesion()
+        {
+            TempData["usuarioId"] = null;
+            Session["usuario"] = null;
+            FormsAuthentication.SignOut();
+            return View("Login");
         }
     }
 }

@@ -1,0 +1,31 @@
+﻿@using JardinesEdi2022.Entidades.Enums
+
+@{
+    ViewBag.Title = "InformacionDelPago";
+}
+
+<h2>Pago Efectuado</h2>
+<div class="row">
+    <br/><br/>
+    @{
+        if ((EstadoOrden)ViewData["Estado"]==EstadoOrden.Aceptada)
+        {
+            <h1 class="text-success text-center">Gracias</h1>
+            <i class="far fa-check-circle fa-9x text-success text-center"></i>
+            <h2 class="text-success text-center">Su pago ha sido realizado con éxito</h2>
+            <h4 class="text-center">ID de la transacción:@ViewData["TransaccionId"]</h4>
+            <br/>
+            <a href="@Url.Action("IndexCustomer","Producto")" class="btn btn-success">Volver</a>
+        }
+        else
+        {
+            <h1 class="text-danger text-center">Lo sentimos</h1>
+            <i class="fas fa-exclamation-circle fa-9x text-danger text-center"></i>
+            <h2 class="text-danger text-center">Su pago no pudo ser realizado</h2>
+            <h4 class="text-center">ID de la transacción:@ViewData["TransaccionId"]</h4>
+            <br/>
+            <a href="@Url.Action("IndexCustomer","Producto")" class="btn btn-danger">Volver</a>
+
+        }
+    }
+</div>

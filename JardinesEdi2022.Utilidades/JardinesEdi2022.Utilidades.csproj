@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileHelper.cs" />
+    <Compile Include="HelperPago.cs" />
     <Compile Include="HelperUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WC.cs" />

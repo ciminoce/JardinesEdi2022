@@ -1,0 +1,89 @@
+﻿@using JardinesEdi2022.Utilidades
+@model IEnumerable<JardinesEdi2022.Entidades.Entidades.Orden>
+@{
+    ViewBag.Title = "MisCompras";
+}
+<div class="container">
+    <h2>Mis Compras</h2>
+    <div class="row mt-5">
+        <div class="col-sm-12">
+            @if (Model.Any())
+            {
+                foreach (var orden in Model)
+                {
+                    <div class="row mb-3">
+                        <div class="col-sm-12">
+                            <div class="card bg-light">
+                                <div class="card-title">
+                                    <div class="d-flex justify-content-between">
+                                        <label>Venta Nro.: @orden.OrdenId</label>
+                                        <label>Fecha: @orden.FechaCompra.ToShortDateString()</label>
+                                    </div>
+                                    <div class="card-body bg-light">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Imágen</th>
+                                                        <th>Producto</th>
+                                                        <th>Precio</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Sub-Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    @foreach (var item in orden.DetalleOrdenes)
+                                                    {
+                                                        <tr>
+
+                                                            @if (string.IsNullOrEmpty(item.Producto.Imagen))
+                                                            {
+                                                                <td>
+                                                                    <img src="@Url.Content(WC.ProductImageFolder + WC.SinImagenDisponible)" style="width: 50px; height: 50px" />
+
+                                                                </td>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>
+
+                                                                    <img src="@Url.Content(WC.ProductImageFolder + item.Producto.Imagen)"  style="width: 50px; height: 50px" />
+                                                                </td>
+
+                                                            }
+                                                            <td>
+                                                                @item.Producto.NombreProducto
+                                                            </td>
+                                                            <td style="text-align: right">
+                                                                @item.PrecioUnitario.ToString("N2")
+                                                            </td>
+                                                            <td style="text-align: right">@item.Cantidad.ToString("N2")</td>
+                                                            <td style="text-align: right">@((item.Cantidad * item.PrecioUnitario).ToString("N2"))</td>
+                                                        </tr>
+                                                    }
+
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <label>Total: @orden.Total</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-danger"> No se han registrado compras todavía</div>
+            }
+        </div>
+    </div>
+</div>
+

@@ -4,6 +4,7 @@ using System.Transactions;
 using JardinesEdi2022.Datos;
 using JardinesEdi2022.Datos.Facades;
 using JardinesEdi2022.Entidades.Entidades;
+using JardinesEdi2022.Entidades.Enums;
 using JardinesEdi2022.Servicios.Facades;
 
 namespace JardinesEdi2022.Servicios.Servicios
@@ -15,13 +16,14 @@ namespace JardinesEdi2022.Servicios.Servicios
 
         private readonly IProductosRepositorio _repositorioProductos;
         private readonly IDetalleOrdenesRepositorio _repositorioDetalles;
-
-        public OrdenesServicios(ViveroSqlDbContext context, IUnitOfWork unitOfWork, IOrdenesRepositorio repositorio, IProductosRepositorio repositorioProductos, IDetalleOrdenesRepositorio repositorioDetalles)
+        private readonly ICarritosRepositorio _carritosRepositorio;
+        public OrdenesServicios(ViveroSqlDbContext context, IUnitOfWork unitOfWork, IOrdenesRepositorio repositorio, IProductosRepositorio repositorioProductos, IDetalleOrdenesRepositorio repositorioDetalles, ICarritosRepositorio carritosRepositorio)
         {
             _unitOfWork = unitOfWork;
             _repositorio = repositorio;
             _repositorioProductos = repositorioProductos;
             _repositorioDetalles = repositorioDetalles;
+            _carritosRepositorio = carritosRepositorio;
         }
 
 
@@ -67,7 +69,20 @@ namespace JardinesEdi2022.Servicios.Servicios
                     {
                         item.OrdenId = orden.OrdenId;
                         _repositorioDetalles.Guardar(item);
-                        _repositorioProductos.ActualizarStock(item.ProductoId, item.Cantidad);
+                        if (orden.EstadoOrden==EstadoOrden.Aceptada)
+                        {
+                            //descuento el stock
+                            _repositorioProductos.ActualizarStock(item.ProductoId, item.Cantidad);
+                            
+                        }
+                        else
+                        {
+                            //repongo el stock
+                            _repositorioProductos.ActualizarStock(item.ProductoId, -item.Cantidad);
+
+                        }
+                        //quito el producto del carrito
+                        _carritosRepositorio.QuitarDelCarrito(orden.ClienteId, item.ProductoId);
                     }
                     _unitOfWork.Save();
 
@@ -107,6 +122,20 @@ namespace JardinesEdi2022.Servicios.Servicios
             {
                 throw new Exception(e.Message);
             }
+        }
+
+        public List<Orden> GetLista(int clienteId)
+        {
+            try
+            {
+                return _repositorio.GetLista(clienteId);
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
         }
     }
 }

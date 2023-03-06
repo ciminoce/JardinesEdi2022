@@ -75,6 +75,25 @@ namespace JardinesEdi2022.Datos.Repositorios
 
         }
 
+        public List<Orden> GetLista(int clienteId)
+        {
+            try
+            {
+                return _context.Ordenes
+                    .Include(o => o.Cliente)
+                    .Include(o => o.DetalleOrdenes)
+                    .OrderBy(o => o.OrdenId)
+                    .Where(o=>o.ClienteId==clienteId)
+                    .AsNoTracking()
+                    .ToList();
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public void Borrar(int id)
         {
             try

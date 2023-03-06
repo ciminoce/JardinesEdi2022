@@ -90,9 +90,10 @@ namespace JardinesEdti2022.Web
             kernel.Bind<ICarritosRepositorio>().To<CarritosRepositorio>().InRequestScope();
             kernel.Bind<ICarritosServicios>().To<CarritosServicios>().InRequestScope();
 
-            //kernel.Bind<IOrdenesRepositorio>().To<OrdenesRepositorio>().InRequestScope();
-            //kernel.Bind<IOrdenesServicios>().To<OrdenesServicios>().InRequestScope();
+            kernel.Bind<IOrdenesRepositorio>().To<OrdenesRepositorio>().InRequestScope();
+            kernel.Bind<IOrdenesServicios>().To<OrdenesServicios>().InRequestScope();
 
+            kernel.Bind<IDetalleOrdenesRepositorio>().To<DetalleOrdenesRepositorio>().InRequestScope();
 
 
             kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();

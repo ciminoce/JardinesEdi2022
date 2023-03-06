@@ -11,62 +11,73 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-9">
-                        <table class="table table-bordered table-hover mt-3">
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ItemsCarrito.FirstOrDefault().Producto)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ItemsCarrito.FirstOrDefault().Cantidad)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ItemsCarrito.FirstOrDefault().Precio)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ItemsCarrito.FirstOrDefault().Total)
-                                </th>
+                        <div class="row">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title">Detalle Carrito</h5>
+                                        @Html.ActionLink("Seguir Comprando", "IndexCustomer", "Producto", null, new { @class = "btn btn-info" })
+                                    </div>
+                                    <table class="table table-bordered table-hover mt-3">
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.ItemsCarrito.FirstOrDefault().Producto)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.ItemsCarrito.FirstOrDefault().Cantidad)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.ItemsCarrito.FirstOrDefault().Precio)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.ItemsCarrito.FirstOrDefault().Total)
+                                            </th>
 
-                                <th></th>
-                            </tr>
-                            @if (Model.ItemsCarrito.Any())
-                            {
-                                foreach (var item in Model.ItemsCarrito)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Producto)
-                                        </td>
-                                        <td style="text-align: right">
-                                            @Html.DisplayFor(modelItem => item.Cantidad)
-                                        </td>
-                                        <td style="text-align: right">
-                                            @Html.DisplayFor(modelItem => item.Precio)
-                                        </td>
-                                        <td style="text-align: right">
-                                            @Html.DisplayFor(modelItem => item.Total)
-                                        </td>
+                                            <th></th>
+                                        </tr>
+                                        @if (Model.ItemsCarrito.Any())
+                                        {
+                                            foreach (var item in Model.ItemsCarrito)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Producto)
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        @Html.DisplayFor(modelItem => item.Cantidad)
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        @Html.DisplayFor(modelItem => item.Precio)
+                                                    </td>
+                                                    <td style="text-align: right">
+                                                        @Html.DisplayFor(modelItem => item.Total)
+                                                    </td>
 
-                                        <td>
-                                            @Html.ActionLink("Borrar", "QuitarDelCarrito", new { productoId = item.ProductoId }, new { @class = "btn btn-danger" })
-                                        </td>
-                                    </tr>
-                                }
-                                <tr>
-                                    <td><strong>TOTALES:</strong></td>
-                                    <td style="text-align: right">@Model.ItemsCarrito.Sum(c => c.Cantidad)</td>
-                                    <td colspan="2" style="text-align: right">@Model.ItemsCarrito.Sum(c => c.Precio * c.Cantidad).ToString("N2")</td>
-                                    <td></td>
-                                </tr>
+                                                    <td style="text-align: center">
+                                                        @Html.ActionLink("Borrar", "QuitarDelCarrito", new { productoId = item.ProductoId }, new { @class = "btn btn-danger" })
+                                                    </td>
+                                                </tr>
+                                            }
+                                            <tr>
+                                                <td><strong>TOTALES:</strong></td>
+                                                <td style="text-align: right">@Model.ItemsCarrito.Sum(c => c.Cantidad)</td>
+                                                <td colspan="2" style="text-align: right">@Model.ItemsCarrito.Sum(c => c.Precio * c.Cantidad).ToString("N2")</td>
+                                                <td></td>
+                                            </tr>
 
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="5" style="text-align: center" class="text-danger"><strong>Carrito sin productos</strong></td>
-                                </tr>
-                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="5" style="text-align: center" class="text-danger"><strong>Carrito sin productos</strong></td>
+                                            </tr>
+                                        }
 
-                        </table>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="col-sm-3">
@@ -74,36 +85,37 @@
                             <div class="card">
                                 <div class="card-body bg-light">
                                     <h5 class="card-title">Detalle Envío</h5>
-                                    <form>
+                                    <form action="@Url.Action("FinalizarCompra", "Carrito")" method="post">
+                                        @Html.AntiForgeryToken()
                                         <div class="form-group">
-                                            @Html.LabelFor(model=>model.PaisEnvioId,new {@class="form-label"})
-                                            @Html.DropDownListFor(model=>model.PaisEnvioId,Model.Paises,"Seleccione País",new {@class="form-select"})
-                                            @Html.ValidationMessageFor(model=>model.PaisEnvioId,null,new {@class="text-danger"})
+                                            @Html.LabelFor(model => model.PaisEnvioId, new { @class = "form-label" })
+                                            @Html.DropDownListFor(model => model.PaisEnvioId, Model.Paises, "Seleccione País", new { @class = "form-select" })
+                                            @Html.ValidationMessageFor(model => model.PaisEnvioId, null, new { @class = "text-danger" })
                                         </div>
                                         <div class="form-group">
-                                            @Html.LabelFor(model=>model.CiudadEnvioId,new {@class="form-label"})
-                                            @Html.DropDownListFor(model=>model.CiudadEnvioId,Model.Ciudades,"Seleccione Ciudad",new {@class="form-select"})
-                                            @Html.ValidationMessageFor(model=>model.CiudadEnvioId,null,new {@class="text-danger"})
+                                            @Html.LabelFor(model => model.CiudadEnvioId, new { @class = "form-label" })
+                                            @Html.DropDownListFor(model => model.CiudadEnvioId, Model.Ciudades, "Seleccione Ciudad", new { @class = "form-select" })
+                                            @Html.ValidationMessageFor(model => model.CiudadEnvioId, null, new { @class = "text-danger" })
                                         </div>
                                         <div class="form-group">
-                                            @Html.LabelFor(model=>model.DireccionEnvio,new {@class="form-label"})
-                                            @Html.TextBoxFor(model=>model.DireccionEnvio,new {@class="form-control"})
-                                            @Html.ValidationMessageFor(model=>model.DireccionEnvio,null,new {@class="text-danger"})
+                                            @Html.LabelFor(model => model.DireccionEnvio, new { @class = "form-label" })
+                                            @Html.TextBoxFor(model => model.DireccionEnvio, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DireccionEnvio, null, new { @class = "text-danger" })
                                         </div>
                                         <div class="form-group">
-                                            @Html.LabelFor(model=>model.CodigoPostalEnvio,new {@class="form-label"})
-                                            @Html.TextBoxFor(model=>model.CodigoPostalEnvio,new {@class="form-control"})
-                                            @Html.ValidationMessageFor(model=>model.CodigoPostalEnvio,null,new {@class="text-danger"})
+                                            @Html.LabelFor(model => model.CodigoPostalEnvio, new { @class = "form-label" })
+                                            @Html.TextBoxFor(model => model.CodigoPostalEnvio, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.CodigoPostalEnvio, null, new { @class = "text-danger" })
                                         </div>
                                         <div class="form-group">
-                                            @Html.LabelFor(model=>model.ContactoEnvio,new {@class="form-label"})
-                                            @Html.TextBoxFor(model=>model.ContactoEnvio,new {@class="form-control"})
-                                            @Html.ValidationMessageFor(model=>model.ContactoEnvio,null,new {@class="text-danger"})
+                                            @Html.LabelFor(model => model.ContactoEnvio, new { @class = "form-label" })
+                                            @Html.TextBoxFor(model => model.ContactoEnvio, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.ContactoEnvio, null, new { @class = "text-danger" })
                                         </div>
                                         <div class="form-group">
-                                            @Html.LabelFor(model=>model.TelefonoEnvio,new {@class="form-label"})
-                                            @Html.TextBoxFor(model=>model.TelefonoEnvio,new {@class="form-control"})
-                                            @Html.ValidationMessageFor(model=>model.TelefonoEnvio,null,new {@class="text-danger"})
+                                            @Html.LabelFor(model => model.TelefonoEnvio, new { @class = "form-label" })
+                                            @Html.TextBoxFor(model => model.TelefonoEnvio, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.TelefonoEnvio, null, new { @class = "text-danger" })
                                         </div>
                                         <div class="d-grid mt-3">
                                             <button type="submit" class="btn btn-success">
@@ -122,3 +134,29 @@
         </div>
     </div>
 </div>
+@section scripts
+{
+    <script>
+        var cboPaises = document.getElementById("PaisEnvioId");
+        cboPaises.addEventListener("change", LlenarComboCiudades);
+
+        function LlenarComboCiudades() {
+            fetch("@Url.Content("~/Carrito/GetCiudades")" + "?paisId=" + cboPaises.value)
+                .then(function(result) {
+                    if (result.ok) {
+                        return result.json();
+                    }
+                })
+                .then(function(data) {
+                    var cboCiudades = document.getElementById("CiudadEnvioId");
+                    cboCiudades.innerHTML = "";
+                    data.forEach(function(elemento) {
+                        let opt = document.createElement("option");
+                        opt.appendChild(document.createTextNode(elemento.Text));
+                        opt.value = elemento.Value;
+                        cboCiudades.appendChild(opt);
+                    });
+                });
+        }
+    </script>
+}
